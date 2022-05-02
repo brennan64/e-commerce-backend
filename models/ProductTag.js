@@ -1,10 +1,10 @@
-const { DataTypes } = require('sequelize');
-const Product = require('./Product');
-const Tag = require('./Tag');
-const sequelize = require('../config/connection.js');
+const { DataTypes } = require("sequelize");
+const Product = require("./Product");
+const Tag = require("./Tag");
+const sequelize = require("../config/connection.js");
 
 module.exports = sequelize.define(
-  'ProductTag',
+  "ProductTag",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -16,14 +16,14 @@ module.exports = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Product,
-        key: 'id',
+        key: "id",
       },
     },
     tag_id: {
       type: DataTypes.INTEGER,
       references: {
         model: Tag,
-        key: 'id',
+        key: "id",
       },
     },
   },
@@ -31,6 +31,6 @@ module.exports = sequelize.define(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product_tag',
+    modelName: "product_tag",
   }
 );

@@ -1,4 +1,4 @@
-const { Category } = require('../models');
+const { Category } = require('../../models');
 
 describe('Category model', () => {
   it('props should be valid', () => {

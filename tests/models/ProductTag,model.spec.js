@@ -1,4 +1,4 @@
-const { ProductTag } = require('../models');
+const { ProductTag } = require('../../models');
 
 describe('ProductTag model', () => {
   it('props should be valid', () => {

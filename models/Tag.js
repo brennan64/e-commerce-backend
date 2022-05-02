@@ -1,8 +1,8 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/connection.js');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/connection.js");
 
 module.exports = sequelize.define(
-  'Tag',
+  "Tag",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -18,6 +18,6 @@ module.exports = sequelize.define(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'tag',
+    modelName: "tag",
   }
 );

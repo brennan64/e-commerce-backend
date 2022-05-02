@@ -1,11 +1,13 @@
-const router = require('express').Router();
-const { Product, Category, Tag, ProductTag } = require('../../models');
+const router = require("express").Router();
+const { Product, Category, Tag, ProductTag } = require("../../models");
 
-router.get('/', async (req, res) => {
-  // TODO: include associated Category and Tag data
+router.get("/", async (req, res) => {
   try {
     const products = await Product.findAll({
-      include: [Category],
+      include: [
+        { model: Category },
+        { model: Tag, through: ProductTag, as: "product_tags" },
+      ],
     });
 
     res.status(200).json(products);
@@ -14,15 +16,19 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
-  // TODO: include associated Category and Tag data
+router.get("/:id", async ({ params: { id } }, res) => {
   try {
-    const product = await Product.findByPk(req.params.id, {
-      include: [Category],
+    const product = await Product.findByPk(id, {
+      include: [
+        { model: Category },
+        { model: Tag, through: ProductTag, as: "product_tags" },
+      ],
     });
 
     if (!product) {
-      return res.status(404).json({ message: 'No product found with this id.' });
+      return res
+        .status(404)
+        .json({ message: "No product found with this id." });
     }
 
     res.status(200).json(product);
@@ -31,40 +37,42 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post("/", async ({ body }, res) => {
   try {
-    const newProduct = await Product.create(req.body);
+    const newProduct = await Product.create(body);
     res.status(200).json(newProduct);
   } catch (err) {
     res.status(400).json(err);
   }
 });
 
-router.put('/:id', async (req, res) => {
-  try {
-    const updatedProduct = await Product.update(
-      {
-        product_name: req.body.product_name,
-        price: req.body.price,
-        stock: req.body.stock,
-        category_id: req.body.category_id,
-      },
-      { where: { id: req.params.id } }
-    );
+router.put(
+  "/:id",
+  async (
+    { body: { product_name, price, stock, category_id }, params: { id } },
+    res
+  ) => {
+    try {
+      const updatedProduct = await Product.update(
+        {
+          product_name,
+          price,
+          stock,
+          category_id,
+        },
+        { where: { id } }
+      );
 
-    res.status(200).json(updatedProduct);
-  } catch (err) {
-    res.status(400).json(err);
+      res.status(200).json(updatedProduct);
+    } catch (err) {
+      res.status(400).json(err);
+    }
   }
-});
+);
 
-router.delete('/:id', async (req, res) => {
+router.delete("/:id", async ({ params: { id } }, res) => {
   try {
-    const deletedProduct = await Product.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
+    const deletedProduct = await Product.destroy({ where: { id } });
     res.status(200).json(deletedProduct);
   } catch (err) {
     res.status(400).json(err);

@@ -1,9 +1,9 @@
-const { DataTypes } = require('sequelize');
-const Category = require('./Category');
-const sequelize = require('../config/connection.js');
+const { DataTypes } = require("sequelize");
+const Category = require("./Category");
+const sequelize = require("../config/connection.js");
 
 module.exports = sequelize.define(
-  'Product',
+  "Product",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ module.exports = sequelize.define(
       type: DataTypes.INTEGER,
       references: {
         model: Category,
-        key: 'id',
+        key: "id",
       },
     },
   },
@@ -42,6 +42,6 @@ module.exports = sequelize.define(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'product',
+    modelName: "product",
   }
 );
